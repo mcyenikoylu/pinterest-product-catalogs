@@ -1,0 +1,19 @@
+{
+  "name": "pinterest-product-catalogs",
+  "version": "1.0.0",
+  "description": "Automatically pin your products on your WooCommerce site to Pinterest.",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcyenikoylu/pinterest-product-catalogs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcyenikoylu/pinterest-product-catalogs/issues"
+  },
+  "homepage": "https://github.com/mcyenikoylu/pinterest-product-catalogs#readme"
+}
