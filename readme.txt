@@ -1,10 +1,12 @@
-=== WC Product Feed for Pinterest ===
+=== Product Feed for Pinterest Product Catalogs ===
 Contributors: mcyenikoylu
+Author: Mehmet Cenk Yenikoylu
+Author URI: https://github.com/mcyenikoylu
 Donate link: https://www.patreon.com/mcy
-Tags: rss, pinterest catalogs rss, feed ,pinterest catalogs feed, woocommerce product rss
-Requires at least: 1.0.0
+Tags: pinterest, pinterest feed, pinterest rss, woocommerce product rss
+Requires at least: 1.0.1
+Stable tag: 1.0.1
 Tested up to: 5.4.2
-Stable tag: 1.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -46,9 +48,9 @@ http://www.yourdomain.com/?call_pinterest_product_catalogs=1
 
 == Installation ==
 
-1. Upload the "WC Product Feed for Pinterest" plugin to your website 
+1. Upload the "Product Feed for Pinterest Product Catalogs" plugin to your website 
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go To "settings" and there you will find all you need under "WC Product Feed for Pinterest Plugin Options"
+3. Go To "settings" and there you will find all you need under "Product Feed for Pinterest Product Catalogs" plugin options.
 4. Good Luck
 
 == Frequently Asked Questions ==
@@ -62,7 +64,9 @@ No Questions
 
 == Changelog ==
 
-No Changelog
+** 1.0.1 **
+
+2020-08-15 product type update.
 
 ** 1.0.0 **
 

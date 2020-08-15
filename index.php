@@ -5,7 +5,7 @@ define('PINTEREST_PRODUCT_CATALOGS_PLUGIN_ADMIN_FILE', plugin_dir_path(__FILE__)
 
 function pinterest_product_catalogs_admin_menu() {
     add_options_page( 'Pinterest Product Catalogs Plugin Options', 
-    'WC Product Feed for Pinterest', 
+    'Product Feed for Pinterest Product Catalogs', 
     'manage_options', 
     'pinterest-product-catalogs-admin-options', 
     'pinterest_product_catalogs_options' );
@@ -16,13 +16,13 @@ function pinterest_product_catalogs_options(){
 	
     ?>
 
-	<div>
-        <h1>WC Product Feed for Pinterest</h1>
-		<p>WooCommerce product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as photo, price, stock status, product description in your pinterest account.</p>
+<div>
+        <h1>Product Feed for Pinterest Product Catalogs</h1>
+		<p>Product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as photo, price, stock status, product description in your pinterest account.</p>
 	</div>
-	<hr>
+	
 	<div>
-		<h3>Simple Pinterest Catalogs RSS Feed:</h3>
+		<h3>Your feed link:</h3>
 		<a href="<?php echo site_url() ?>?call_pinterest_product_catalogs=1" target="_blank">
 			<?php echo site_url() ?>?call_pinterest_product_catalogs=1
 		</a>

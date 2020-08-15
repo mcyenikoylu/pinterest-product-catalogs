@@ -1,12 +1,12 @@
 <?php
 /*
- * Plugin Name:   WC Product Feed for Pinterest
- * Plugin URI:    
- * Description:   WooCommerce product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as photo, price, stock status, product description in your pinterest account.
- * Version:       1.0.0
+ * Plugin Name:   Product Feed for Pinterest Product Catalogs
+ * Plugin URI:    https://github.com/mcyenikoylu/pinterest-product-catalogs
+ * Description:   Product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as image, price, stock status, product description in your pinterest account.
+ * Version:       1.0.1
  * Author:        Mehmet Cenk Yenikoylu
  * Author URI:    https://github.com/mcyenikoylu
- * License: GPLv2 or later
+ * License:       GPLv2 or later
  */
 
 if ( is_admin() ){
@@ -47,7 +47,7 @@ function pinterest_product_catalogs_deactivation() {
 	delete_option( 'pinterest_product_catalogs_options' );
 }
 
-function mcy_build_xml_string($args,$options){
+function ppcf_build_xml_string($args,$options){
 	    
     extract($options);
    
@@ -57,10 +57,10 @@ function mcy_build_xml_string($args,$options){
     foreach($namespaces as $name => $value){
         $namespaces_str .=  'xmlns:'.$name.'="'.$value.'" ';
     }    
-    $csrp_feed_current = '<?xml version="1.0" encoding="UTF-8"?>
+    $ppcf_feed_current = '<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" '.$namespaces_str.' >';
 
-    $csrp_feed_current .= '
+    $ppcf_feed_current .= '
         <channel>
         <title>'.get_bloginfo("name").'</title>
         <description>'.get_bloginfo("description").'</description>
@@ -71,7 +71,7 @@ function mcy_build_xml_string($args,$options){
             'options' => $options,
         );
 
-        if(isset($csrp_debug)&& $csrp_debug=='1') $csrp_feed_current .=	'<debug>'.json_encode($debug_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE).'</debug>';
+        if(isset($csrp_debug)&& $csrp_debug=='1') $ppcf_feed_current .=	'<debug>'.json_encode($debug_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE).'</debug>';
 
         if ( $the_query->have_posts() ) {
             while ( $the_query->have_posts() ) {
@@ -111,11 +111,11 @@ function mcy_build_xml_string($args,$options){
                 
                 $custom_fields = get_post_custom($post_id);
                
-                $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($post_id), $options['csrp_thumbnail_size=full'],true);
+                $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($post_id), $options['ppcf_thumbnail_size=full'],true);
              
                 $thumb_url = $thumb['0'];
                
-                    $csrp_feed_current .='
+                    $ppcf_feed_current .='
                     <item>
                    
                             <id><![CDATA['. $post_id .']]></id>
@@ -126,24 +126,70 @@ function mcy_build_xml_string($args,$options){
                             
                             ';
 
-                          
                              foreach ( $custom_fields as $key => $value ) {
+
                                 if ($key=='_stock_status'){
                                     if ($value[0] == 'instock')
-                                        $csrp_feed_current .= "<g:availability><![CDATA[ in stock ]]></g:availability>";//$value[0] = str_replace("instock","in stock",$value[0]);
+                                        $ppcf_feed_current .= "<g:availability><![CDATA[ in stock ]]></g:availability>";//$value[0] = str_replace("instock","in stock",$value[0]);
                                     else if ($value[0] == 'outofstock')
-                                        $csrp_feed_current .= "<g:availability><![CDATA[ out of stock ]]></g:availability>";//$value[0] = str_replace("instock","in stock",$value[0]);
+                                        $ppcf_feed_current .= "<g:availability><![CDATA[ out of stock ]]></g:availability>";//$value[0] = str_replace("instock","in stock",$value[0]);
                                     else if ($value[0] == 'preorder')
-                                        $csrp_feed_current .= "<g:availability><![CDATA[ preorder ]]></g:availability>";//$value[0] = str_replace("instock","in stock",$value[0]);
+                                        $ppcf_feed_current .= "<g:availability><![CDATA[ preorder ]]></g:availability>";//$value[0] = str_replace("instock","in stock",$value[0]);
                                 }
                             }
 
-                            $csrp_feed_current .= "<g:condition><![CDATA[ New ]]></g:condition>";
+                            $ppcf_feed_current .= "<g:condition><![CDATA[ New ]]></g:condition>";
 
-                            $price = get_post_meta(get_the_ID(), '_price', true);
-                            $csrp_feed_current .= "<g:price><![CDATA[".$price."]]></g:price>";
+                            $taxonomy_objects = get_object_taxonomies( $the_post );
                                
-                    $csrp_feed_current .='		
+                            if($taxonomy_objects){
+                                if ( ! is_wp_error( $taxonomy_objects ) ) {
+                                   
+                                    foreach($taxonomy_objects as $taxonomy_object){
+                                      
+                                        $terms = wp_get_post_terms( $post_id, $taxonomy_object, array("fields" => "all") );
+                                        //print_r($terms);    
+                                        if(!empty($terms)){
+                                           
+                                            if ( ! is_wp_error( $terms ) ) {
+
+                                            if($taxonomy_object == 'product_cat'){
+                                           
+                                            $taxonomies.= "<g:product_type>";
+                                            $ix = 1;
+                                            foreach($terms as $term){
+                                                if($ix == 1){
+                                                    for ($i=0; $i <= 0; $i++) { 
+                                                        $term_name = $term->name;
+                                                        $taxonomies.= "<![CDATA[ ".$term_name." ]]>";
+                                                        $ix++;
+                                                    }
+                                                }
+                                                
+                                            }
+                                            $taxonomies.= "</g:product_type>";
+                                            $ppcf_feed_current .= $taxonomies ;
+                                            }
+                                            }
+                                        }
+                                    }
+                                }                    
+                            }   
+
+                            $ppcf_price = get_post_meta(get_the_ID(), '_price', true);
+                            $ppcf_sale_price = get_post_meta(get_the_ID(), '_sale_price', true);
+                            $ppcf_regular_price = get_post_meta(get_the_ID(), '_regular_price', true);
+                            
+                            if(empty($ppcf_sale_price)){
+                                $ppcf_price = get_post_meta(get_the_ID(), '_price', true);
+                                $ppcf_feed_current .= "<g:price><![CDATA[".$ppcf_price."]]></g:price>";
+                            } else {
+                                $ppcf_feed_current .= "<sale_price><![CDATA[".$ppcf_sale_price."]]></sale_price>";
+                                $ppcf_feed_current .= "<g:price><![CDATA[".$ppcf_regular_price."]]></g:price>";
+                            }
+                            
+                            
+                    $ppcf_feed_current .='		
                     </item>';
 
             }
@@ -153,23 +199,23 @@ function mcy_build_xml_string($args,$options){
       
         wp_reset_postdata();
         
-    $csrp_feed_current .='</channel></rss><!-- end of xml string -->';
-    return $csrp_feed_current;
+    $ppcf_feed_current .='</channel></rss><!-- end of xml string -->';
+    return $ppcf_feed_current;
     
 }
 
 function pinterest_product_catalogs_set_defults(){
     $pinterest_product_catalogs_options	= array(
-            'csrp_post_type'=> 'product',
-            'csrp_post_status'=> 'publish',
-            'csrp_posts_per_page'=> 1000,
-            'csrp_show_meta'=> 0,
-            'csrp_show_thumbnail'=> 0,	
-            'csrp_show_content'=> 0,
-            'csrp_allowed_tags' => PINTEREST_PRODUCT_CATALOGS_PLUGIN_ALLOWED_TAGS,
-            'csrp_secret_key'=> '',
-            'csrp_xml_type'=> 0, 
-            'csrp_pubdate_date_format'=> 'rfc',
+            'ppcf_post_type'=> 'product',
+            'ppcf_post_status'=> 'publish',
+            'ppcf_posts_per_page'=> 1000,
+            'ppcf_show_meta'=> 0,
+            'ppcf_show_thumbnail'=> 0,	
+            'ppcf_show_content'=> 0,
+            'ppcf_allowed_tags' => PINTEREST_PRODUCT_CATALOGS_PLUGIN_ALLOWED_TAGS,
+            'ppcf_secret_key'=> '',
+            'ppcf_xml_type'=> 0, 
+            'ppcf_pubdate_date_format'=> 'rfc',
     );
     update_option('pinterest_product_catalogs_options',$pinterest_product_catalogs_options);
     return $pinterest_product_catalogs_options;
@@ -209,7 +255,7 @@ function call_pinterest_product_catalogs(){
     $options['namespaces'] = $namespaces;
     
     $csrp_feed_output = null;
-    $csrp_feed_output = mcy_build_xml_string($args,$options);
+    $csrp_feed_output = ppcf_build_xml_string($args,$options);
 
     if($csrp_feed_output){
         header('Content-Type: text/xml; charset=utf-8');
@@ -219,3 +265,5 @@ function call_pinterest_product_catalogs(){
         print('<?xml version="1.0" encoding="UTF-8"?><rss/>'); 
     }
  }
+
+ 
