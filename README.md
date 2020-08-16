@@ -6,7 +6,7 @@ Automatically pin your products on your WooCommerce site to Pinterest.
 
 WooCommerce product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as photo, price, stock status, product description in your pinterest account.
 
-*** Does not contain your blog posts! It feeds only your products. ***
+***Does not contain your blog posts! It feeds only your products.***
 
 It adds price information to the pin on your Pinterest account and when users click on your pin picture, they go to the sales page on your website.
 
@@ -26,7 +26,7 @@ Login to the plugins section of your WordPress site. Click on the 'Add New' butt
 
 After the upload process is over. Go to the site's Plugins page. Activate the plugin and enjoy it.
 
-** Step by step **
+**Step by step**
 1. Upload the "Product Feed for Pinterest Product Catalogs" plugin to your website 
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go To "settings" and there you will find all you need under "Product Feed for Pinterest Product Catalogs" plugin options.
@@ -42,14 +42,14 @@ http://www.yourdomain.com/?call_pinterest_product_catalogs=1
 ### Screen Print
 
 Product Items by
-*id
-*title 
-*description (short description)
-*link
-*image_link (product first image)
-*availability (in stock, out of stock, preorder)
-*condition (default 'new')
-*price
+* id
+* title 
+* description (short description)
+* link
+* image_link (product first image)
+* availability (in stock, out of stock, preorder)
+* condition (default 'new')
+* price
 
 ```xml
 <channel>
@@ -84,16 +84,16 @@ Pinterest mobile app screens
 
 ### Changelog
 
-** 1.0.1 **
+**1.0.1**
 2020-08-15 product type update.
 
-** 1.0.0 **
+**1.0.0**
 2020-07-11 first launch.
 
 ## Deployment
 
-*WordPress
-*WooCommerce
+* WordPress
+* WooCommerce
 
 ## Built With
 
