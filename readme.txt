@@ -4,8 +4,8 @@ Author: Mehmet Cenk Yenikoylu
 Author URI: https://github.com/mcyenikoylu
 Donate link: https://www.patreon.com/mcy
 Tags: pinterest, pinterest feed, pinterest rss, woocommerce product rss
-Requires at least: 1.0.1
-Stable tag: 1.0.1
+Requires at least: 5.4
+Stable tag: 1.0.2
 Tested up to: 5.4.2
 Requires PHP: 7.0
 License: GPLv2 or later
@@ -37,14 +37,14 @@ http://www.yourdomain.com/?call_pinterest_product_catalogs=1
 
 **Product Items by:**
 
-*id
-*title 
-*description (short description)
-*link
-*image_link (product first image)
-*availability (in stock, out of stock, preorder)
-*condition (default 'new')
-*price
+* id
+* title 
+* description (short description)
+* link
+* image_link (product first image)
+* availability (in stock, out of stock, preorder)
+* condition (default 'new')
+* price
 
 == Installation ==
 
