@@ -76,7 +76,7 @@ Your website xml page
 ![screenshot-1](https://user-images.githubusercontent.com/12815851/90329234-75fae500-dfab-11ea-9db7-e29a45debfd6.png)
 
 Pinterest product catalogs datasource web page
-![screenshot-2](https://user-images.githubusercontent.com/12815851/90329237-78f5d580-dfab-11ea-84ec-0cf1a12ad877.png)
+![screenshot-2](https://user-images.githubusercontent.com/12815851/90661185-8cc16600-e24f-11ea-94ce-357d5de52010.png)
 
 Pinterest mobile app screens
 ![screenshot-3](https://user-images.githubusercontent.com/12815851/90329238-7a270280-dfab-11ea-8248-c136747a9b5c.png)
@@ -107,7 +107,7 @@ v1.0.1
 
 ## Authors
 
-* **Mehmet Cenk Yeniköylü** - 
+* **Mehmet Cenk Yeniköylü** - [WordPress Profile](https://profiles.wordpress.org/mcyenikoylu/)
 
 ## License
 
