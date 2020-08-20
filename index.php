@@ -1,5 +1,5 @@
 <?php
-define('PINTEREST_PRODUCT_CATALOGS_VERSION', '1.0.0');
+define('PINTEREST_PRODUCT_CATALOGS_VERSION', '1.0.2');
 define('PINTEREST_PRODUCT_CATALOGS_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 define('PINTEREST_PRODUCT_CATALOGS_PLUGIN_ADMIN_FILE', plugin_dir_path(__FILE__)."index.php" );
 

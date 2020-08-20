@@ -19,7 +19,7 @@ Automatically pin your products on your WooCommerce site to Pinterest.
 
 WooCommerce product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as photo, price, stock status, product description in your pinterest account.
 
-*** Does not contain your blog posts! It feeds only your products. ***
+***Does not contain your blog posts! It feeds only your products.***
 
 It adds price information to the pin on your Pinterest account and when users click on your pin picture, they go to the sales page on your website.
 
@@ -64,11 +64,15 @@ No Questions
 
 == Changelog ==
 
-** 1.0.1 **
+**1.0.2**
+
+2020-08-20 errors have been fixed.
+
+**1.0.1**
 
 2020-08-15 product type update.
 
-** 1.0.0 **
+**1.0.0**
 
 2020-07-11 first launch.
 

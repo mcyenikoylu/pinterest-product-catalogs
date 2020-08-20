@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name:   Product Feed for Pinterest Product Catalogs
- * Plugin URI:    https://github.com/mcyenikoylu/pinterest-product-catalogs
+ * Plugin URI:    https://wordpress.org/plugins/wc-product-feed-for-pinterest
  * Description:   Product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as image, price, stock status, product description in your pinterest account.
  * Version:       1.0.2
  * Author:        Mehmet Cenk Yenikoylu
@@ -261,12 +261,6 @@ function call_pinterest_product_catalogs(){
     if($csrp_feed_output){
         header('Content-Type: text/xml; charset=utf-8');
         print($csrp_feed_output); 
-        //$xmlHeader = new SimpleXMLElement($csrp_feed_output);  
-        //print($xmlHeader);       
-
-        //$headerDoc = '<temp>' . utf8_encode(html_entity_decode($headerFragment)) . '</temp>'; 
-        //$xmlHeader = new SimpleXMLElement($headerDoc);
-
     }else{
         header('Content-Type: text/xml; charset=utf-8');
         print('<?xml version="1.0" encoding="UTF-8"?><rss/>'); 
