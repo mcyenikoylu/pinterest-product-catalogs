@@ -84,6 +84,14 @@ Pinterest mobile app screens
 
 ### Changelog
 
+**1.0.3**
+2020-09-10 
+*errors have been fixed.
+*'sale price' field has been added.
+
+**1.0.2**
+2020-08-20 errors have been fixed.
+
 **1.0.1**
 2020-08-15 product type update.
 
@@ -103,7 +111,7 @@ Pinterest mobile app screens
 
 ## Versioning
 
-v1.0.1
+v1.0.3
 
 ## Authors
 

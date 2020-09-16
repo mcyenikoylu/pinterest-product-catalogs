@@ -4,9 +4,9 @@ Author: Mehmet Cenk Yenikoylu
 Author URI: https://github.com/mcyenikoylu
 Donate link: https://www.patreon.com/mcy
 Tags: pinterest, pinterest feed, pinterest rss, woocommerce product rss
-Requires at least: 5.4
-Stable tag: 1.0.2
-Tested up to: 5.4.2
+Requires at least: 5.5
+Stable tag: 1.0.3
+Tested up to: 5.5.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -44,6 +44,7 @@ http://www.yourdomain.com/?call_pinterest_product_catalogs=1
 * image_link (product first image)
 * availability (in stock, out of stock, preorder)
 * condition (default 'new')
+* sale price
 * price
 
 == Installation ==
@@ -63,6 +64,11 @@ No Questions
 3. Pinterest mobile pin screen
 
 == Changelog ==
+**1.0.3**
+
+2020-09-10 
+*errors have been fixed.
+*'sale price' field has been added.
 
 **1.0.2**
 

@@ -3,7 +3,7 @@
  * Plugin Name:   Product Feed for Pinterest Product Catalogs
  * Plugin URI:    https://wordpress.org/plugins/wc-product-feed-for-pinterest
  * Description:   Product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as image, price, stock status, product description in your pinterest account.
- * Version:       1.0.2
+ * Version:       1.0.3
  * Author:        Mehmet Cenk Yenikoylu
  * Author URI:    https://github.com/mcyenikoylu
  * License:       GPLv2 or later
@@ -22,33 +22,67 @@ if ( is_admin() ){
         add_filter('plugin_action_links', 'pinterest_product_catalogs_plugin_action_links', 10, 2);
 }
 
-add_action( 'parse_request', 'pinterest_product_catalogs_parse_request' );
-function pinterest_product_catalogs_parse_request( $wp )
-{
-    if (array_key_exists('call_pinterest_product_catalogs', $wp->query_vars ) ) {
-		$call_pinterest_product_catalogs = $wp->query_vars['call_pinterest_product_catalogs'];
-		if($call_pinterest_product_catalogs=='1') call_pinterest_product_catalogs();
-		die();
+function call_pinterest_product_catalogs(){    
+
+    $pinterest_product_catalogs_options = get_option('pinterest_product_catalogs_options');
+
+	if(is_array($pinterest_product_catalogs_options)===false){
+		$pinterest_product_catalogs_options = pinterest_product_catalogs_set_defults();
+	}
+	
+    $ppcf_show_post_terms = $ppcf_debug = $ppcf_show_all_post_terms = null;
+     
+    extract($pinterest_product_catalogs_options);
+    $options['ppcf_show_content'] = $ppcf_show_content;
+    $options['ppcf_show_thumbnail'] = $ppcf_show_thumbnail;
+    $options['ppcf_show_post_terms'] = $ppcf_show_post_terms;
+    $options['ppcf_allowed_tags'] = $ppcf_allowed_tags;
+    $options['ppcf_pubdate_date_format'] = $ppcf_pubdate_date_format;
+    
+    if( isset($_GET["ppcf_post_type"]) ){
+		$ppcf_post_type = sanitize_text_field($_GET["ppcf_post_type"]);	
+	}
+    if( isset($_GET["ppcf_posts_per_page"]) ){
+		$ppcf_posts_per_page = intval($_GET["ppcf_posts_per_page"]);	
+	}
+    if( isset($_GET["ppcf_post_status"]) ){
+		$ppcf_post_status = sanitize_text_field($_GET["ppcf_post_status"]);	
+	}
+
+	$args = array(
+		'post_type' => $ppcf_post_type,
+		'showposts' => $ppcf_posts_per_page, 
+		'post_status'=>$ppcf_post_status,
+		'ignore_sticky_posts' => true,
+	);
+	
+    $namespaces = array(
+        "content" => "http://purl.org/rss/1.0/modules/content/",
+		"wfw" => "http://wellformedweb.org/CommentAPI/",
+		"dc" => "http://purl.org/dc/elements/1.1/",
+		"atom" => "http://www.w3.org/2005/Atom",
+		"sy" => "http://purl.org/rss/1.0/modules/syndication/",
+		"slash" => "http://purl.org/rss/1.0/modules/slash/",
+        "media" => "http://search.yahoo.com/mrss/",
+        "wp" => "http://wordpress.org/export/1.2/",
+        "excerpt" => "http://wordpress.org/export/1.2/excerpt/",
+        "g" => "http://base.google.com/ns/1.0",
+    );
+    $options['namespaces'] = $namespaces;
+    
+    $ppcf_feed_output = null;
+    $ppcf_feed_output = ppcf_build_xml_string($args,$options);
+    
+    if($ppcf_feed_output){
+        header('Content-Type: text/xml; charset=utf-8');
+        print($ppcf_feed_output); 
+    }else{
+        header('Content-Type: text/xml; charset=utf-8');
+        print('<?xml version="1.0" encoding="UTF-8"?><rss/>'); 
     }
-}
+ }
 
-add_filter( 'query_vars', 'pinterest_product_catalogs_query_vars' );
-function pinterest_product_catalogs_query_vars( $query_vars ){
-    $query_vars[] = 'call_pinterest_product_catalogs';
-    return $query_vars;
-}
-
-register_activation_hook(__FILE__, 'pinterest_product_catalogs_activation');
-function pinterest_product_catalogs_activation() {
-	pinterest_product_catalogs_set_defults();
-}
-
-register_deactivation_hook(__FILE__, 'pinterest_product_catalogs_deactivation');
-function pinterest_product_catalogs_deactivation() {
-	delete_option( 'pinterest_product_catalogs_options' );
-}
-
-function ppcf_build_xml_string($args,$options){
+ function ppcf_build_xml_string($args,$options) {
 	    
     extract($options);
    
@@ -72,7 +106,7 @@ function ppcf_build_xml_string($args,$options){
             'options' => $options,
         );
 
-        if(isset($csrp_debug)&& $csrp_debug=='1') $ppcf_feed_current .=	'<debug>'.json_encode($debug_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE).'</debug>';
+        if(isset($ppcf_debug)&& $ppcf_debug=='1') $ppcf_feed_current .=	'<debug>'.json_encode($debug_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE).'</debug>';
 
         if ( $the_query->have_posts() ) {
             while ( $the_query->have_posts() ) {
@@ -88,7 +122,7 @@ function ppcf_build_xml_string($args,$options){
                 $post_status = $the_post->post_status;
                 $author = get_the_author_meta('display_name', $author_id );				
                 $categories = get_the_category();
-                switch ($csrp_pubdate_date_format) {
+                switch ($ppcf_pubdate_date_format) {
                     case "rfc":
                         $date_format =  'D, d M Y H:i:s O';
                         $pub_date = get_the_date( $date_format, $post_id );
@@ -196,6 +230,7 @@ function ppcf_build_xml_string($args,$options){
             }
         } else {
             // no posts 
+            $ppcf_feed_current .= 'no posts';
         }			
       
         wp_reset_postdata();
@@ -205,7 +240,34 @@ function ppcf_build_xml_string($args,$options){
     
 }
 
-function pinterest_product_catalogs_set_defults(){
+
+ add_filter( 'query_vars', 'pinterest_product_catalogs_query_vars' );
+function pinterest_product_catalogs_query_vars( $query_vars ){
+    $query_vars[] = 'call_pinterest_product_catalogs';
+    return $query_vars;
+}
+
+ add_action( 'parse_request', 'pinterest_product_catalogs_parse_request' );
+function pinterest_product_catalogs_parse_request( $wp )
+{
+    if (array_key_exists('call_pinterest_product_catalogs', $wp->query_vars ) ) {
+		$call_pinterest_product_catalogs = $wp->query_vars['call_pinterest_product_catalogs'];
+		if($call_pinterest_product_catalogs=='1') call_pinterest_product_catalogs();
+		die();
+    }
+}
+
+register_activation_hook(__FILE__, 'pinterest_product_catalogs_activation');
+function pinterest_product_catalogs_activation() {
+	pinterest_product_catalogs_set_defults();
+}
+
+register_deactivation_hook(__FILE__, 'pinterest_product_catalogs_deactivation');
+function pinterest_product_catalogs_deactivation() {
+	delete_option( 'pinterest_product_catalogs_options' );
+}
+
+ function pinterest_product_catalogs_set_defults(){
     $pinterest_product_catalogs_options	= array(
             'ppcf_post_type'=> 'product',
             'ppcf_post_status'=> 'publish',
@@ -221,50 +283,3 @@ function pinterest_product_catalogs_set_defults(){
     update_option('pinterest_product_catalogs_options',$pinterest_product_catalogs_options);
     return $pinterest_product_catalogs_options;
 }
-
-function call_pinterest_product_catalogs(){    
-
-    $pinterest_product_catalogs_options = get_option('pinterest_product_catalogs_options');
-
-	if(is_array($pinterest_product_catalogs_options)===false){
-		$pinterest_product_catalogs_options = pinterest_product_catalogs_set_defults();
-	}
-	
-    $csrp_show_post_terms = $csrp_debug = $csrp_show_all_post_terms = null;
-     
-    extract($pinterest_product_catalogs_options);
-    
-	$args = array(
-		'post_type' => $csrp_post_type,
-		'showposts' => $csrp_posts_per_page, 
-		'post_status'=>$csrp_post_status,
-		'ignore_sticky_posts' => true,
-	);
-	
-    $namespaces = array(
-        "content" => "http://purl.org/rss/1.0/modules/content/",
-		"wfw" => "http://wellformedweb.org/CommentAPI/",
-		"dc" => "http://purl.org/dc/elements/1.1/",
-		"atom" => "http://www.w3.org/2005/Atom",
-		"sy" => "http://purl.org/rss/1.0/modules/syndication/",
-		"slash" => "http://purl.org/rss/1.0/modules/slash/",
-        "media" => "http://search.yahoo.com/mrss/",
-        "wp" => "http://wordpress.org/export/1.2/",
-        "excerpt" => "http://wordpress.org/export/1.2/excerpt/",
-        "g" => "http://base.google.com/ns/1.0",
-    );
-    $options['namespaces'] = $namespaces;
-    
-    $csrp_feed_output = null;
-    $csrp_feed_output = ppcf_build_xml_string($args,$options);
-    
-    if($csrp_feed_output){
-        header('Content-Type: text/xml; charset=utf-8');
-        print($csrp_feed_output); 
-    }else{
-        header('Content-Type: text/xml; charset=utf-8');
-        print('<?xml version="1.0" encoding="UTF-8"?><rss/>'); 
-    }
- }
-
- 

@@ -1,5 +1,5 @@
 <?php
-define('PINTEREST_PRODUCT_CATALOGS_VERSION', '1.0.2');
+define('PINTEREST_PRODUCT_CATALOGS_VERSION', '1.0.3');
 define('PINTEREST_PRODUCT_CATALOGS_PLUGIN_URL', plugin_dir_url( __FILE__ ));
 define('PINTEREST_PRODUCT_CATALOGS_PLUGIN_ADMIN_FILE', plugin_dir_path(__FILE__)."index.php" );
 
@@ -40,6 +40,7 @@ function pinterest_product_catalogs_options(){
 				&lt;image_link&gt;http://localhost/wordpress/wp-content/uploads/2018/04/product-73.jpg&lt;/image_link&gt;<br>
 				&lt;g:availability&gt;in stock&lt;/g:availability&gt;<br>
 				&lt;g:condition&gt;New&lt;/g:condition&gt;<br>
+				&lt;sale_price&gt;19.59&lt;/sale_price&gt;<br>
 				&lt;g:price&gt;23.59&lt;/g:price&gt;<br>
 				&lt;/item&gt;<br>
 				&lt;channel&gt;
