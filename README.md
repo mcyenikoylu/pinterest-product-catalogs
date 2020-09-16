@@ -22,7 +22,7 @@ It is mandatory to have WooCommerce in your Wordpress structure. You do not need
 
 Login to the plugins section of your WordPress site. Click on the 'Add New' button. Then click the 'Upload Plugin' button. Upload the compressed file you downloaded from [this link pinterest-product-catalogs.zip](https://github.com/mcyenikoylu/pinterest-product-catalogs/files/5080160/pinterest-product-catalogs.zip) to your site.
 
-> In the future, the plugin will be published on the WordPress Plugins website.
+> [Install from WordPress plugin site to website!](https://wordpress.org/plugins/wc-product-feed-for-pinterest/)
 
 After the upload process is over. Go to the site's Plugins page. Activate the plugin and enjoy it.
 
@@ -49,6 +49,7 @@ Product Items by
 * image_link (product first image)
 * availability (in stock, out of stock, preorder)
 * condition (default 'new')
+* sale price
 * price
 
 ```xml
@@ -61,6 +62,7 @@ Product Items by
         <image_link>http://localhost/wordpress/wp-content/uploads/2018/04/product-73.jpg</image_link>
         <g:availability>in stock</g:availability>
         <g:condition>New</g:condition>
+        <saleprice>19.59</saleprice>
         <g:price>23.59</g:price>
     </item>
 <channel>
@@ -72,22 +74,15 @@ No Questions
 
 ### Screenshots
 
-Your website xml page
-![screenshot-1](https://user-images.githubusercontent.com/12815851/90329234-75fae500-dfab-11ea-9db7-e29a45debfd6.png)
-
-Pinterest product catalogs datasource web page
-![screenshot-2](https://user-images.githubusercontent.com/12815851/90661185-8cc16600-e24f-11ea-94ce-357d5de52010.png)
-
 Pinterest mobile app screens
 ![screenshot-3](https://user-images.githubusercontent.com/12815851/90329238-7a270280-dfab-11ea-8248-c136747a9b5c.png)
-
 
 ### Changelog
 
 **1.0.3**
 2020-09-10 
-*errors have been fixed.
-*'sale price' field has been added.
+* errors have been fixed.
+* 'sale price' field has been added.
 
 **1.0.2**
 2020-08-20 errors have been fixed.
