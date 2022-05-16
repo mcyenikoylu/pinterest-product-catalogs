@@ -1,6 +1,6 @@
 # pinterest-product-catalogs
 
-Automatically pin your products on your WooCommerce site to Pinterest.
+WordPress Plugin that automatically catalogs your products on your WooCommerce site to Pinterest.
 
 ## Getting Started
 
