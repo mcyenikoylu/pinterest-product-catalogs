@@ -4,10 +4,10 @@ Author: Mehmet Cenk Yenikoylu
 Author URI: https://github.com/mcyenikoylu
 Donate link: https://www.patreon.com/mcy
 Tags: pinterest, pinterest feed, pinterest rss, woocommerce product rss
-Requires at least: 5.5
-Stable tag: 1.0.3
-Tested up to: 5.5.1
-Requires PHP: 7.0
+Requires at least: 6.6
+Stable tag: 1.0.5
+Tested up to: 6.6.2
+Requires PHP: 7.2.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,19 +21,13 @@ WooCommerce product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin
 
 ***Does not contain your blog posts! It feeds only your products.***
 
-It adds price information to the pin on your Pinterest account and when users click on your pin picture, they go to the sales page on your website.
-
-Thus, you earn customer through pinterest and increase your potential sales channel.
-
-The RSS feed has been developed with tags recommended by Pinterest.
-
-It is mandatory to have WooCommerce in your Wordpress structure.
-You do not need to install an additional RSS plugin on your site.
-
 **for example:**
 
-You just need to login this link for use:
-http://www.yourdomain.com/?call_pinterest_product_catalogs=1
+All products:
+http://www.yourdomain.com/?call_pinterest_product_catalogs=1&ppcf_posts_per_page=100
+
+Category specific feeds:
+http://www.yourdomain.com/?call_pinterest_product_catalogs=1&ppcf_posts_per_page=100&ppcf_category=your-category-slug
 
 **Product Items by:**
 
@@ -46,6 +40,14 @@ http://www.yourdomain.com/?call_pinterest_product_catalogs=1
 * condition (default 'new')
 * sale price
 * price
+* product_type (category hierarchy)
+
+Thus, you earn customer through pinterest and increase your potential sales channel.
+
+The RSS feed has been developed with tags recommended by Pinterest.
+
+It is mandatory to have WooCommerce in your Wordpress structure.
+You do not need to install an additional RSS plugin on your site.
 
 == Installation ==
 
@@ -55,31 +57,44 @@ http://www.yourdomain.com/?call_pinterest_product_catalogs=1
 4. Good Luck
 
 == Frequently Asked Questions ==
-No Questions
+
+= How do I fix the "Error 107" error? =
+
+You will get this error if the short description field is blank.
+
+= Can I use the product long description? =
+
+Yes you can use. It is necessary to update line 158. Please check the link: https://gist.github.com/mcyenikoylu/1a82962b41446b795007dff4ccc86889.
 
 == Screenshots ==
 
-1. RSS print screen
+1. Pinterest mobile pin screen
 2. Pinterest RSS screen
-3. Pinterest mobile pin screen
+3. RSS Feed XML print screen
 
 == Changelog ==
-**1.0.3**
 
+= 1.0.5 =
+2024-11-5
+* Added: Category specific feed URLs
+* Added: Custom post limit per page parameter (ppcf_posts_per_page)
+* Fixed: HTML tags in product descriptions
+* Fixed: XML output buffering issues
+
+= 1.0.4 =
+2021-01-16 
+*errors have been fixed.
+
+**1.0.3**
 2020-09-10 
 *errors have been fixed.
 *'sale price' field has been added.
 
 **1.0.2**
-
 2020-08-20 errors have been fixed.
 
 **1.0.1**
-
 2020-08-15 product type update.
 
 **1.0.0**
-
 2020-07-11 first launch.
-
-`<?php code(); // goes in backticks ?>`
