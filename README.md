@@ -79,6 +79,24 @@ Pinterest mobile app screens
 
 ### Changelog
 
+**1.0.6**
+2024-12-7
+* Updated: PHP 7.2.14+ compatibility
+* Updated: WordPress 6.6+ compatibility 
+* Updated: Code optimization and strict type declarations
+* Updated: Better error handling and XML output buffering
+* Fixed: Security improvements for XML generation
+
+**1.0.5**
+2024-11-5
+* Added: Category specific feed URLs
+* Added: Custom post limit per page parameter (ppcf_posts_per_page)
+* Fixed: HTML tags in product descriptions
+* Fixed: XML output buffering issues
+
+**1.0.4**
+2021-01-16 errors have been fixed.
+
 **1.0.3**
 2020-09-10 
 * errors have been fixed.
@@ -100,13 +118,13 @@ Pinterest mobile app screens
 
 ## Built With
 
-* [PHP](https://www.php.net/manual/en/migration70.new-features.php) - PHP v7.0.x
-* [WordPress](https://wordpress.org) - WordPress v5.5
-* [WooCommerce](https://woocommerce.com) - WooCommerce v4.3.1
+* [PHP](https://www.php.net/) - PHP v7.2.14+
+* [WordPress](https://wordpress.org) - WordPress v6.6+
+* [WooCommerce](https://woocommerce.com) - Latest version
 
 ## Versioning
 
-v1.0.3
+v1.0.6
 
 ## Authors
 

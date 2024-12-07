@@ -5,7 +5,7 @@ Author URI: https://github.com/mcyenikoylu
 Donate link: https://www.patreon.com/mcy
 Tags: pinterest, pinterest feed, pinterest rss, woocommerce product rss
 Requires at least: 6.6
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 Tested up to: 6.6.2
 Requires PHP: 7.2.14
 License: GPLv2 or later
@@ -74,6 +74,14 @@ Yes you can use. It is necessary to update line 158. Please check the link: http
 
 == Changelog ==
 
+= 1.0.6 =
+2024-12-7
+* Updated: PHP 7.2.14+ compatibility
+* Updated: WordPress 6.6+ compatibility 
+* Updated: Code optimization and strict type declarations
+* Updated: Better error handling and XML output buffering
+* Fixed: Security improvements for XML generation
+
 = 1.0.5 =
 2024-11-5
 * Added: Category specific feed URLs
@@ -82,13 +90,12 @@ Yes you can use. It is necessary to update line 158. Please check the link: http
 * Fixed: XML output buffering issues
 
 = 1.0.4 =
-2021-01-16 
-*errors have been fixed.
+2021-01-16 errors have been fixed.
 
 **1.0.3**
 2020-09-10 
-*errors have been fixed.
-*'sale price' field has been added.
+* errors have been fixed.
+* 'sale price' field has been added.
 
 **1.0.2**
 2020-08-20 errors have been fixed.

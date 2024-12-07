@@ -3,26 +3,55 @@
  * Plugin Name:   Product Feed for Pinterest Product Catalogs
  * Plugin URI:    https://wordpress.org/plugins/wc-product-feed-for-pinterest
  * Description:   Product RSS Feed for 'Pinterest Product Catalogs'. Automatically pin the products on your website by posting information such as image, price, stock status, product description in your pinterest account.
- * Version:       1.0.5
+ * Version:       1.0.6
  * Author:        Mehmet Cenk Yenikoylu
  * Author URI:    https://github.com/mcyenikoylu
  * License:       GPLv2 or later
  * License URI:   http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-if ( is_admin() ){
-    require_once dirname( __FILE__ ) . '/index.php';
+ // Strict typing
+declare(strict_types=1);
 
-    function pinterest_product_catalogs_plugin_action_links( $links, $file ) {
-        if ( $file == plugin_basename( dirname(__FILE__).'/pinterest-product-catalogs.php' ) ) {
-            $links[] = '<a href="' . admin_url( 'admin.php?page=pinterest-product-catalogs-admin-options' ) . '">'.__( 'Settings' ).'</a>';
+// Define constants
+define('PINTEREST_PRODUCT_CATALOGS_PLUGIN_ALLOWED_TAGS', [
+    'a' => [
+        'href' => [],
+        'title' => [],
+        'class' => []
+    ],
+    'br' => [],
+    'p' => ['class' => []],
+    'div' => ['class' => []],
+    'span' => ['class' => []]
+]);
+
+if ( is_admin() ){
+    require_once dirname(__FILE__) . '/index.php';
+    
+    function pinterest_product_catalogs_plugin_action_links(array $links, string $file): array 
+    {
+        if ($file === plugin_basename(__FILE__)) {
+            $settings_link = sprintf(
+                '<a href="%s">%s</a>',
+                admin_url('admin.php?page=pinterest-product-catalogs-admin-options'),
+                __('Settings')
+            );
+            array_unshift($links, $settings_link);
         }
         return $links;
     }
     add_filter('plugin_action_links', 'pinterest_product_catalogs_plugin_action_links', 10, 2);
-
+    
     // Admin panel fonksiyonunu buraya ekleyin
     function pinterest_product_catalogs_options() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+        
+        // Nonce field ekleyelim
+        wp_nonce_field('pinterest_product_catalogs_options', 'pinterest_product_catalogs_nonce');    
+
         ?>
         <div>
             <h1>Product Feed for Pinterest Product Catalogs</h1>
@@ -89,7 +118,14 @@ if ( is_admin() ){
     }
 }
 
-function call_pinterest_product_catalogs(){    
+function call_pinterest_product_catalogs(): void {  
+    
+    $ppcf_show_content = false; // Değişken tanımlanmamış
+    $ppcf_show_thumbnail = false;
+    $ppcf_show_post_terms = false;
+    $ppcf_allowed_tags = PINTEREST_PRODUCT_CATALOGS_PLUGIN_ALLOWED_TAGS;
+    $ppcf_pubdate_date_format = 'rfc';
+
     // Önceki tüm çıktıları temizle
     if (ob_get_level()) {
         ob_end_clean();
@@ -130,8 +166,12 @@ function call_pinterest_product_catalogs(){
     exit();
 }
 
-function ppcf_build_xml_string($args, $options) {
-    $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+function ppcf_build_xml_string(array $args, array $options): string {
+    
+
+    try {
+        // Mevcut kod...
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
     $xml .= '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">' . "\n";
     $xml .= '<channel>' . "\n";
 
@@ -148,7 +188,10 @@ function ppcf_build_xml_string($args, $options) {
             if(empty($description)) {
                 $description = wp_strip_all_tags($product->get_short_description());
             }
-            $description = trim(preg_replace('/\s+/', ' ', $description));
+            $description = html_entity_decode($description, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+$description = wp_strip_all_tags($description);
+$description = trim(preg_replace('/\s+/', ' ', $description));
+$description = preg_replace('/\<\!\[CDATA\[(.*?)\]\]\>/', '$1', $description);
             
             $xml .= "\t<item>\n";
             $xml .= sprintf("\t\t<g:id>%s</g:id>\n", esc_html($post_id));
@@ -186,6 +229,10 @@ function ppcf_build_xml_string($args, $options) {
     $xml .= '</channel></rss>';
     
     return $xml;
+    } catch (Exception $e) {
+        error_log('Pinterest Product Catalogs XML Build Error: ' . $e->getMessage());
+        return '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><error>Feed generation failed</error></channel></rss>';
+    }
 }
 
  add_filter( 'query_vars', 'pinterest_product_catalogs_query_vars' );
@@ -205,8 +252,18 @@ function pinterest_product_catalogs_parse_request( $wp )
 }
 
 register_activation_hook(__FILE__, 'pinterest_product_catalogs_activation');
-function pinterest_product_catalogs_activation() {
-	pinterest_product_catalogs_set_defults();
+// Activation function
+function pinterest_product_catalogs_activation(bool $network_wide = false): void 
+{
+    // Default options
+    $defaults = [
+        'option1' => 'default_value1',
+        'option2' => 'default_value2'
+    ];
+    
+    if (!get_option('pinterest_product_catalogs_options')) {
+        add_option('pinterest_product_catalogs_options', $defaults);
+    }
 }
 
 register_deactivation_hook(__FILE__, 'pinterest_product_catalogs_deactivation');
